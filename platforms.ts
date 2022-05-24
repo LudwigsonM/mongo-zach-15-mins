@@ -1,15 +1,18 @@
-import { getDb } from './db.js';
+import { getDb } from './db';
+
+interface Platform {
+  name: string;
+}
+
 
 const getCollection = async () => {
   const db = await getDb();
-  return db.collection('platforms');
+  return db.collection<Platform>('platforms');
 };
 
-export const createPlatform = async (name) => {
+export const createPlatform = async (platform: Platform) => {
   const col = await getCollection();
-  const insertedResults = await col.insertOne({
-    name,
-  });
+  const insertedResults = await col.insertOne(platform);
 
   return insertedResults.insertedId;
 };

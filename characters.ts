@@ -1,13 +1,13 @@
 import { ObjectId } from 'mongodb';
-import { getDb } from './db';
+import { getDatabase } from './db';
 
 interface Character {
   name: string;
-  tvShowId: ObjectId;
+  tvShowId: string;
 }
 
 const getCollection = async () => {
-  const db = await getDb();
+  const db = await getDatabase();
   return db.collection<Character>('characters');
 };
 
@@ -24,7 +24,7 @@ export const getCharacters = async () => {
   return ret.toArray();
 };
 
-export const getCharactersByTvShow = async (tvShowId: ObjectId) => {
+export const getCharactersByTvShow = async (tvShowId: string) => {
   const col = await getCollection();
   const ret = col.find({
     tvShowId,
